@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#f0f2f5" id="theme-color-meta" name="theme-color"/>
+<meta content="#f0f2f5" name="msapplication-navbutton-color"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<title>Genify AI - Generate AI Videos</title>
+<meta content="Genify AI is the most powerful AI video generator that transforms text into stunning, cinematic-quality videos in seconds. Perfect for social media, marketing, and creative projects. Create your vision with AI today." name="description"/>
+<meta content="AI video generator, text to video, video from text, AI video, generate video, custom video, online video maker, free ai video generator, create videos with ai, artificial intelligence video, cinematic video generator" name="keywords"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link crossorigin="" href="https://cdnjs.cloudflare.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" rel="stylesheet"/>
+<noscript>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</noscript>
+<link href="/index.html" rel="canonical"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<style>
+    :root {
+        --accent: #7a5dff;
+        --accent-2: #bb6bff;
+        --blur: 20px;
+        --rad: 18px;
+        --header-h: 64px;
+        /* Light Theme by default */
+        --bg1: #f0f2f5;
+        --bg2: #e6e9ee;
+        --text-color: #1a202c;
+        --glass: rgba(255, 255, 255, .6);
+        --glass-light: rgba(255, 255, 255, 0.8);
+        --card-border: rgba(0, 0, 0, .08);
+        --card-shadow: rgba(0, 0, 0, .1);
+    }
+    
+    body.dark-mode {
+        --bg1: #0b0b14;
+        --bg2: #161627;
+        --text-color: #ffffffcc;
+        --glass: rgba(255, 255, 255, .07);
+        --glass-light: rgba(255, 255, 255, 0.12);
+        --card-border: rgba(255, 255, 255, .08);
+        --card-shadow: rgba(0, 0, 0, .5);
+    }
+
+    /* Common Styles */
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+        min-height: 100vh;
+    }
+    body {
+        font-family: Poppins, sans-serif;
+        color: var(--text-color);
+        background: var(--bg1);
+        overflow-x: hidden;
+        line-height: 1.6;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background: radial-gradient(circle at 25% 35%, var(--bg2) 0%, var(--bg1) 70%);
+        transition: background 0.3s ease;
+    }
+
+    body.dark-mode::after {
+        content: "";
+        position: fixed;
+        inset: -30% -30% 0 -30%;
+        z-index: -1;
+        background: linear-gradient(60deg, #ff00c8 0%, #5300ff 30%, #00d4ff 60%, #ff9900 100%);
+        opacity: .15;
+        filter: blur(100px);
+        animation: shift 18s ease-in-out alternate infinite;
+    }
+    @keyframes shift {
+      0% { transform: translate3d(25%,-10%,0) scale(1.1); }
+      50% { transform: translate3d(-10%,20%,0) scale(1.05); opacity: .18; }
+      100% { transform: translate3d(25%,-10%,0) scale(1.1); }
+    }
+    
+    /* --- HEADER & FOOTER --- */
+    header {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.3rem clamp(1.5rem, 6vw/1.618, 4rem);
+      background: var(--glass);
+      backdrop-filter: blur(var(--blur));
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 2px 20px var(--card-shadow);
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo {
+      font-size: 1.7rem; font-weight: 600; color: var(--text-color);
+      display:flex; align-items:center; gap:.75rem;
+      transition: color 0.3s ease;
+    }
+    .logo a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo i {
+      color: var(--accent);
+      animation: pulse 1.5s infinite alternate ease-in-out;
+    }
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+  
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    nav a {
+      position: relative;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.05rem;
+      padding: 0.5rem 0.2rem;
+      transition: all 0.3s ease-out;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      border-radius: 3px;
+      transform: translateX(-50%);
+      transition: width 0.3s ease-out;
+    }
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+    nav a.active {
+      color: var(--accent);
+    }
+    
+    #theme-toggle {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-color);
+        transition: color 0.3s ease;
+    }
+    #theme-toggle:hover {
+        color: var(--accent);
+    }
+    
+    footer.legal {
+      text-align:center;padding:1.5rem 0;
+      background: var(--glass);
+      color: var(--text-color);font-size:.9rem;
+      border-top:1px solid var(--card-border);
+      margin-top: 5rem;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    footer.legal ul {
+      list-style:none;padding:0;margin:0;display:flex;justify-content:center;gap:2.5rem;
+      flex-wrap: wrap;
+    }
+    footer.legal li a {
+      color: var(--text-color);
+      text-decoration:none;
+      transition: color .2s ease-out;
+      opacity: 0.8;
+    }
+    footer.legal li a:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    /* --- VIDEO GENERATOR SPECIFIC STYLES --- */
+    main {
+      padding: calc(var(--header-h) + 3rem) clamp(1.5rem, 6vw/1.618, 4rem) 4.6rem;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+        gap: 3rem;
+        padding: 2rem 0;
+    }
+
+    .hero-text {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .hero-text h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        line-height: 1.1;
+        background: linear-gradient(92deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        color: transparent;
+        letter-spacing: -1px;
+        position: relative;
+        animation: fadeSlideIn .8s ease-out forwards;
+    }
+    .hero-text h1::before {
+        content: attr(data-text);
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(92deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        color: transparent;
+        z-index: -1;
+        opacity: 0;
+        animation: glitch .4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        animation-delay: 1.5s;
+    }
+    @keyframes glitch {
+      0% { opacity: 0.8; transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      10% { transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      20% { transform: skew(-0.5deg, 0.5deg) translate(-2px, 2px); }
+      30% { transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      40% { transform: skew(-0.5deg, 0.5deg) translate(-2px, 2px); }
+      50% { transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      60% { transform: skew(-0.5deg, 0.5deg) translate(-2px, 2px); }
+      70% { transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      80% { transform: skew(-0.5deg, 0.5deg) translate(-2px, 2px); }
+      90% { transform: skew(0.5deg, -0.5deg) translate(2px, -2px); }
+      100% { opacity: 0; transform: none; }
+    }
+    
+    .hero-text p {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        opacity: 0.8;
+        color: var(--text-color);
+        margin-top: 0.5rem;
+        animation: fadeSlideIn .8s ease-out forwards .2s;
+        transition: color 0.3s ease;
+    }
+
+    .panel {
+        width: 100%;
+        background: var(--glass);
+        backdrop-filter: blur(var(--blur));
+        border-radius: var(--rad);
+        border: 1px solid var(--card-border);
+        padding: 3rem 2.5rem;
+        box-shadow: 0 15px 40px -15px var(--card-shadow);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeSlideIn .8s ease-out forwards .4s;
+        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    @keyframes fadeSlideIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .prompt-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    /* Updated CSS for textarea height and placeholder color */
+    textarea {
+        width: 100%;
+        height: 200px; /* Set fixed height as requested (200dp converted to px) */
+        padding: 1.4rem;
+        border-radius: 12px;
+        border: 1px solid var(--card-border);
+        background: var(--glass-light);
+        color: var(--text-color);
+        font-size: 1rem;
+        font-family: Poppins, sans-serif;
+        transition: all 0.3s ease;
+        resize: none; /* Prevent user from resizing */
+    }
+    textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(122,93,255,0.3);
+    }
+    textarea::placeholder {
+        color: grey;
+    }
+    body.dark-mode textarea::placeholder {
+        color: #aaa;
+    }
+
+    .inspiration-prompts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+    }
+    .inspiration-prompts span {
+        background: var(--glass-light);
+        color: var(--text-color);
+        font-size: 0.9em;
+        padding: 0.6rem 1rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid var(--card-border);
+        opacity: 0.8;
+    }
+    .inspiration-prompts span:hover {
+        background: rgba(255,255,255,0.8);
+        transform: translateY(-2px);
+        opacity: 1;
+    }
+    body.dark-mode .inspiration-prompts span:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+
+    button {
+        padding: 1.1rem 1.4rem;
+        border: none;
+        background: linear-gradient(45deg, var(--accent), var(--accent-2));
+        color: #fff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(122,93,255,0.4);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Button shimmer effect */
+    button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.3);
+        transform: skewX(-20deg);
+        transition: all 0.5s ease-in-out;
+    }
+    button:hover::before {
+        transform: translate(120%, 0) skewX(-20deg);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(122,93,255,0.6);
+    }
+    button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.7;
+    }
+    body.dark-mode button:disabled {
+      background: #333;
+    }
+    button:disabled .spinner {
+        border-color: transparent;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-block;
+      box-sizing: border-box;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    /* Modern spinner with gradient border */
+    .spinner::before {
+      content: '';  
+      box-sizing: border-box;
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-right-color: var(--accent);
+      border-left-color: var(--accent-2);
+      animation: rotation 1s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+    }
+    .spinner::after {
+        content: '';  
+        box-sizing: border-box;
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: var(--accent);
+        border-bottom-color: var(--accent-2);
+        animation: rotation 1s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+        animation-delay: 0.2s;
+        opacity: 0.8;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    } 
+
+    #status {
+        margin-top: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+        font-size: 1rem;
+    }
+    body.dark-mode #status {
+        color: #fff;
+    }
+
+
+    .video-display {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: var(--rad);
+        border: 1px solid var(--card-border);
+        overflow: hidden;
+        position: relative;
+        margin-top: 2rem;
+        background: #222;
+    }
+    .video-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.1);
+        color: #666;
+        font-size: 1.1rem;
+        padding: 2rem;
+        text-align: center;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+    body.dark-mode .video-placeholder {
+        background: rgba(255,255,255,0.1);
+        color: #aaa;
+    }
+
+    .video-placeholder .placeholder-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: none;
+    }
+    .download-link {
+        margin-top: 1.5rem;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        background: linear-gradient(45deg, #10B981, #059669);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        display: none;
+        text-align: center;
+    }
+    .download-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    }
+    
+    .content-section {
+        width: 100%;
+        max-width: 900px;
+        margin: 5rem auto 2rem;
+        padding: 0 2rem;
+        text-align: center;
+    }
+
+    .content-section h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        color: transparent;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+
+    .content-section p {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        opacity: 0.8;
+        margin-bottom: 1rem;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background: var(--glass-light);
+        backdrop-filter: blur(var(--blur));
+        border-radius: var(--rad);
+        padding: 2rem;
+        text-align: left;
+        border: 1px solid var(--card-border);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    body.dark-mode .feature-card:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .feature-card h3 {
+        font-size: 1.4rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+        font-size: 1rem;
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+
+    @media(max-width:768px){
+      header { padding:1rem clamp(1rem, 4vw, 2rem); }
+      .logo { font-size:1.5rem; }
+      main { padding:calc(var(--header-h) + 2rem) clamp(1rem, 4vw, 2rem) 3rem; }
+      footer.legal ul { gap: 1.5rem; }
+    }
+    @media(max-width:480px){
+      header { padding:0.8rem 1rem; }
+      .logo { font-size:1.3rem; }
+      main { padding:calc(var(--header-h) + 1.5rem) 1rem 2rem; }
+      .panel { padding: 2rem 1.5rem; }
+      footer.legal ul { flex-direction: column; gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+<header>
+<div class="logo"><a href="/index.html"><i class="fa-solid fa-palette"></i> Genify AI</a></div>
+<nav>
+<a class="about-link" href="/about-us.php">About Us</a>
+<i class="fas fa-moon" id="theme-toggle"></i>
+</nav>
+</header>
+<main>
+<section class="main-container">
+<div class="hero-text">
+<h1 data-text="Create with AI">Create with AI</h1>
+<p>Turn your imagination into stunning videos in seconds.</p>
+</div>
+<div class="panel">
+<form class="prompt-form" id="videoForm">
+<textarea id="promptInput" name="prompt" placeholder=""></textarea>
+<div class="inspiration-prompts">
+<span data-prompt="A futuristic underwater city with glowing submarines and neon coral reefs.">Underwater City</span>
+<span data-prompt="A colossal ancient robot buried in a desert, half-covered by sand, cinematic lighting.">Desert Robot</span>
+<span data-prompt="A floating island in the sky with waterfalls cascading into clouds, dreamy atmosphere.">Sky Island</span>
+<span data-prompt="A steampunk airship flying over a Victorian city during sunset, cinematic angle.">Steampunk Airship</span>
+<span data-prompt="A neon-lit alleyway in a rainy cyberpunk city with holographic advertisements.">Cyberpunk Alley</span>
+<span data-prompt="A mystical dragon curled around a crystal mountain under a starry night sky.">Crystal Dragon</span>
+</div>
+<button id="generateBtn" type="submit">Generate Video</button>
+</form>
+<div id="status"></div>
+<div class="video-display">
+<div class="video-placeholder" id="videoPlaceholder">
+<i class="fas fa-video placeholder-icon"></i>
+<p>Your generated video will appear here.</p>
+</div>
+<video autoplay="" controls="" id="video"></video>
+</div>
+<a class="download-link" download="generated_video.mp4" href="" id="downloadBtn">Download Video</a>
+</div>
+</section>
+<section class="content-section">
+<h2>Transform Your Ideas into Visual Masterpieces</h2>
+<p>Genify AI is the next-generation AI video generator that transforms text into stunning, cinematic-quality videos in seconds. Whether you're a content creator, marketer, or just exploring your creativity, our platform makes video creation effortless and accessible to everyone. Simply describe your vision in text, and our powerful AI model will craft a high-quality video for you in moments.</p>
+<h3>Key Features</h3>
+<div class="features-grid">
+<div class="feature-card">
+<h3>Text-to-Video in Seconds</h3>
+<p>Forget complex software. Our advanced AI takes your text prompt and generates a unique, ready-to-use video in an instant.</p>
+</div>
+<div class="feature-card">
+<h3>Cinematic Quality</h3>
+<p>Experience videos with stunning visuals and smooth animations. Genify AI produces professional-grade content that stands out.</p>
+</div>
+<div class="feature-card">
+<h3>Endless Creativity</h3>
+<p>From realistic landscapes to fantastical worlds, there's no limit to what you can create. Your imagination is the only boundary.</p>
+</div>
+</div>
+<h3 style="margin-top: 3rem;">How It Works</h3>
+<p>It's simple, fast, and intuitive. Follow these three easy steps:</p>
+<div class="features-grid">
+<div class="feature-card">
+<h3>1. Enter Your Prompt</h3>
+<p>Write a clear and descriptive prompt for the video you want to generate. Be creative!</p>
+</div>
+<div class="feature-card">
+<h3>2. Generate</h3>
+<p>Click the "Generate Video" button and let our AI work its magic. Grab a coffee, it's that fast.</p>
+</div>
+<div class="feature-card">
+<h3>3. Download &amp; Share</h3>
+<p>Your video is ready. Download it in high-quality MP4 format and share it with the world!</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="legal">
+<ul>
+<li><a href="/privacy/index.html">Privacy Policy</a></li>
+<li><a href="/terms/index.html">Terms &amp; Conditions</a></li>
+</ul>
+<p>© 2025 Genify AI. All rights reserved.</p>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const videoForm = document.getElementById('videoForm');
+    const promptInput = document.getElementById('promptInput');
+    const inspirationSpans = document.querySelectorAll('.inspiration-prompts span');
+    const generateBtn = document.getElementById('generateBtn');
+    const statusDiv = document.getElementById('status');
+    const videoElement = document.getElementById('video');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const videoPlaceholder = document.getElementById('videoPlaceholder');
+    const heroTextH1 = document.querySelector('.hero-text h1');
+    heroTextH1.setAttribute('data-text', heroTextH1.textContent);
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeColorMeta = document.getElementById('theme-color-meta');
+
+    // Theme Toggle Functionality
+    const lightThemeColor = '#f0f2f5';
+    const darkThemeColor = '#0b0b14';
+
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggleBtn.classList.remove('fa-moon');
+            themeToggleBtn.classList.add('fa-sun');
+            themeColorMeta.setAttribute('content', darkThemeColor);
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeToggleBtn.classList.remove('fa-sun');
+            themeToggleBtn.classList.add('fa-moon');
+            themeColorMeta.setAttribute('content', lightThemeColor);
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+        const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+        setTheme(newTheme);
+    });
+
+    // Handle inspiration prompt clicks
+    inspirationSpans.forEach(span => {
+        span.addEventListener('click', () => {
+            promptInput.value = span.getAttribute('data-prompt');
+            promptInput.focus(); // Focus on the textarea after clicking a prompt
+        });
+    });
+
+    // New: Auto-typing placeholder animation
+    const prompts = [
+        "A fantastical steampunk city floating in the sky, with airships and cog-powered buildings.",
+        "A group of ancient, wise-looking robots playing chess in a lush garden filled with bioluminescent plants.",
+        "A mystical portal opening in the middle of a snowy forest, revealing a warm, sunlit desert on the other side.",
+        "A neon-lit cyberpunk street with flying cars and holographic advertisements, in a pouring rainstorm."
+    ];
+    let promptIndex = 0;
+    let charIndex = 0;
+    let isTyping = true;
+
+    function autoType() {
+        const currentPrompt = prompts[promptIndex];
+        let placeholderText = promptInput.getAttribute('placeholder') || '';
+
+        if (isTyping) {
+            if (charIndex < currentPrompt.length) {
+                placeholderText += currentPrompt.charAt(charIndex);
+                promptInput.setAttribute('placeholder', placeholderText);
+                charIndex++;
+                setTimeout(autoType, 50); // Typing speed
+            } else {
+                isTyping = false;
+                setTimeout(autoType, 2000); // Wait after typing
+            }
+        } else {
+            if (placeholderText.length > 0) {
+                placeholderText = placeholderText.slice(0, -1);
+                promptInput.setAttribute('placeholder', placeholderText);
+                setTimeout(autoType, 30); // Deleting speed
+            } else {
+                isTyping = true;
+                promptIndex = (promptIndex + 1) % prompts.length;
+                charIndex = 0;
+                setTimeout(autoType, 500); // Wait before next prompt
+            }
+        }
+    }
+    
+    // Start the animation only if the input is not focused
+    if (document.activeElement !== promptInput) {
+        autoType();
+    }
+    
+    // Pause animation when user interacts with the input
+    promptInput.addEventListener('focus', () => {
+      promptInput.setAttribute('placeholder', '');
+      isTyping = false;
+      charIndex = 0;
+    });
+    
+    // Resume animation if input is empty and loses focus
+    promptInput.addEventListener('blur', () => {
+      if (promptInput.value === '') {
+        isTyping = true;
+        promptIndex = 0; // Reset to first prompt
+        autoType();
+      }
+    });
+
+    // Handle form submission
+    videoForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const prompt = promptInput.value;
+        if (!prompt) {
+            statusDiv.textContent = 'Please enter a prompt.';
+            return;
+        }
+
+        // Reset UI
+        videoElement.style.display = 'none';
+        videoPlaceholder.style.display = 'flex';
+        downloadBtn.style.display = 'none';
+        statusDiv.textContent = 'Processing... please wait';
+        statusDiv.style.color = 'var(--text-color)';
+
+        // Show loading state
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<div class="spinner"></div>Generating...';
+
+        // AJAX request
+fetch("https://sora.rizoel.workers.dev/api/t2v", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt })
+})
+.then(async (response) => {
+  const json = await response.json();
+  if (!response.ok) {
+    throw new Error(json?.error || 'Something went wrong');
+  }
+  return json; // { upstreamStatus, data: { status, url } }
+})
+.then((json) => {
+  const url = json?.data?.url;
+  if (url) {
+    videoElement.src = url;
+    videoElement.style.display = 'block';
+    videoPlaceholder.style.display = 'none';
+    downloadBtn.href = url;
+    downloadBtn.style.display = 'block';
+    statusDiv.textContent = 'Video ready ✅';
+    statusDiv.style.color = '#10B981';
+  } else {
+    throw new Error('Video URL not found in response.');
+  }
+})
+.catch((error) => {
+  statusDiv.textContent = `Error: ${error.message}`;
+  statusDiv.style.color = '#EF4444';
+  console.error('Fetch error:', error);
+})
+.finally(() => {
+  generateBtn.disabled = false;
+  generateBtn.innerHTML = 'Generate Video';
+});
+    });
+});
+</script>
+</body>
+</html>
